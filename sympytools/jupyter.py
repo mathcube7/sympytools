@@ -4,6 +4,8 @@ import clipboard
 
 
 class Navigator:
+    """Navigator allows for selecting sympy subexpressions graphically.
+    """
 
     def __init__(self):
         self._current_path = []
@@ -12,6 +14,14 @@ class Navigator:
         self._expr = None
 
     def navigate(self, expr):
+        """Open the Jupyter widgets to select a subexpression graphically.
+
+        Parameters
+        ----------
+        expr: sympy expression
+            The sympy expression from which to select a subexpression.
+
+        """
         self._expr = expr
         self._current_subexpr = expr
         self.show()
@@ -58,11 +68,13 @@ class Navigator:
         self._widgets.append(box)
 
     def handle_select(self, event):
+        """Event handler for when a "Select" button was clicked"""
         self._current_path.append(event.iarg)
         self._current_subexpr = get_by_path(self._expr, self._current_path)
         self.show()
 
     def handle_up(self, event):
+        """Event handler for when the "Go up" button was clicked"""
         if len(self._current_path) == 0:
             return
         self._current_path.pop()
@@ -70,14 +82,34 @@ class Navigator:
         self.show()
 
     def handle_copy_path(self, event):
+        """Event handler for when the "Copy" button was clicked"""
         clipboard.copy(str(self._current_path))
         with self.msg_output:
             print('Path copied to clipboard')
 
 
-
-
 def get_by_path(expr, path):
+    """ Retrieve a subexpression by giving its path
+
+    Parameters
+    ----------
+    expr: sympy expression
+        The expression from which to retrieve the subexpression.
+    path: list of ints
+        The indices of the args tuples, see example.
+
+    Returns
+    -------
+    sympy expression for given path
+
+
+    Examples
+    --------
+    get_by_path(expr, [1, 0, 3, 1])
+       is equivalent to
+    expr.args[1].args[0].args[3].args[1]
+
+    """
     subexpr = expr
     for idx in path:
         subexpr = subexpr.args[idx]
