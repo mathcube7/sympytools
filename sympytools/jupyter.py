@@ -42,9 +42,10 @@ class Navigator:
         copy_path_button.on_click(self.handle_copy_path)
         self.msg_output = Output()
         hbox = HBox([up_button, copy_path_button])
-        vbox = VBox([label, expr_output, hbox, self.msg_output], layout=Layout(border='solid 2px grey',
-                                                padding='5px'
-                                               ))
+        vbox = VBox([label, expr_output, hbox, self.msg_output],
+                    layout=Layout(border='solid 2px grey',
+                                  padding='5px'
+                                  ))
 
         display(vbox)
         self._widgets.append(vbox)
