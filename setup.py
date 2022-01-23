@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 author = 'mathcube'
 email = 'mathcube7@gmail.com'
-description = 'Tools for using SymPy'
+description = 'Tools for more convenient calculations in SymPy'
 name = 'sympytools'
 year = '2022'
 url = 'https://github.com/mathcube7/sympytools'
