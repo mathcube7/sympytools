@@ -8,6 +8,8 @@ class Navigator:
     """
 
     def __init__(self):
+        # A path is a list of indices for the args tuples of some
+        # sympy expression ([1, 0, 2] => expr.args[1].args[0].args[2]
         self._current_path = []
         self._current_subexpr = None
         self._widgets = []
@@ -27,6 +29,7 @@ class Navigator:
         self.show()
 
     def show(self):
+        """Build and update the GUI"""
         for w in self._widgets:
             w.close()
 
@@ -46,7 +49,6 @@ class Navigator:
                     layout=Layout(border='solid 2px grey',
                                   padding='5px'
                                   ))
-
         display(vbox)
         self._widgets.append(vbox)
 
