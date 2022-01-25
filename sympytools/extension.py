@@ -1,13 +1,35 @@
 from sympy import expand, Integral, diff
 import sympy
 
-LEFT = 1
-RIGHT = 2
-
 
 class Path:
+    """Represent an integration path in some metric space."""
 
     def __init__(self, name, funcs, limits):
+        """ Constructs Path.
+
+        Parameters
+        ----------
+        name: str
+            The symbol to use represent path in SymPy expressions
+        funcs: dict
+            The parametrization.
+        limits: tuple
+            The parameter and its range (param, from, to)
+
+        Examples
+        --------
+
+        Unit circle in the xy-plane:
+
+        circle = Path('C', {x: cos(t),y: sin(t)},
+                         (t, 0, 2*pi))
+
+        Unit circle in the complex plane:
+
+        circle = Path('C', {z: exp(i*t), (t, 0, 2*pi)}
+
+        """
         self.name = name
         self.funcs = funcs
         self.limits = limits
