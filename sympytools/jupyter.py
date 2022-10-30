@@ -86,9 +86,15 @@ class Navigator:
 
     def handle_copy_path(self, event):
         """Event handler for when the "Copy" button was clicked"""
-        clipboard.copy(str(self._current_path))
+
+        path = []
+        for part in self._current_path:
+            path.append('/[%d]' % part)
+
+        clipboard.copy('"' + path + '"')
         with self.msg_output:
             print('Path copied to clipboard')
+
 
 
 def get_by_path(expr, path):
@@ -98,7 +104,7 @@ def get_by_path(expr, path):
     ----------
     expr: sympy expression
         The expression from which to retrieve the subexpression.
-    path: list of ints
+    path: list of ints or EPath string
         The indices of the args tuples, see example.
 
     Returns
@@ -108,11 +114,19 @@ def get_by_path(expr, path):
 
     Examples
     --------
-    get_by_path(expr, [1, 0, 3, 1])
+    >>> get_by_path(expr, [1, 0, 3, 1])
        is equivalent to
-    expr.args[1].args[0].args[3].args[1]
+    >>> expr.args[1].args[0].args[3].args[1]
 
     """
+
+    if isinstance(path, str):
+        path_ = []
+        for part in path.split('/'):
+            part = part.replace('[', '').replace(']', '')
+            path_.append(int(part))
+        path = path_
+
     subexpr = expr
     for idx in path:
         subexpr = subexpr.args[idx]
